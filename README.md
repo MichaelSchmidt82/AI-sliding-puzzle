@@ -5,11 +5,13 @@ Solve an NxN sliding puzzle problem using the A* algorithm
 clone the project and type `make`
 
 ### Usage:
-Generate a board:  `./random_board <SEED> <NUM_OF_SHUFFLES> > <COMPLETED_FILE>`  
+Generate a board:  `./random_board <SEED> <NUM_OF_SHUFFLES> < <COMPLETED_STATE>`  
 Solve a board:  `./a-star <MODE> < <START_STATE_FILE>`  
+  
+or simply chain the operations together e.x.:  
+`./a-star 2 < ./random_board 1 100 < puzzle.txt`  
 
-where:  
-
+#### where:  
 `<SEED>`  
 A seed value for the random number generator.  
 
