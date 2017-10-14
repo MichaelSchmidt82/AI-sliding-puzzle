@@ -6,9 +6,7 @@ clone the project and type `make`
 
 ### Usage:
 Generate a board:  `./random_board <SEED> <NUM_OF_SHUFFLES> > <START_STATE_FILE>`
-  
-### Solve a board:
-`./a-star <MODE> < <START_STATE_FILE>`
+Solve a board:  `./a-star <MODE> < <START_STATE_FILE>`
 
 where:
 
