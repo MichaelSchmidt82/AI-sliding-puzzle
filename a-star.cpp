@@ -43,18 +43,14 @@ int main (int argc, char *argv[]) {
 
     /* Create initial state */
     init_board(board, side);
-
     try {
         curr_state = new State(board, side, Mode(atoi(argv[1])));
     } catch (bad_alloc & ba) {
         cerr << "bad allocation: " << ba.what() << endl;
     }
 
-
-
     /* Perform a-star search */
 	while (!curr_state->is_goal()) {
-
 		closed_list.insert(curr_state);
 		expand_state(curr_state, closed_list, frontier);
 
@@ -68,21 +64,18 @@ int main (int argc, char *argv[]) {
 	d = curr_state->get_depth();
 	b = pow(n, 1 / double(d));
 
-	/* Print results */
+	/* Print Stats */
 	cout << "==================== STATS ====================" << endl;
 	cout << v << " of " << n << " states visited." << endl;
 	cout << "Solution is " << d << " levels deep in tree." << endl;
 	cout << b << " average branching factor." <<	 endl;
 	cout << "=================== SOLUTION ==================" << endl << endl;
 
-
-
     /* Push states onto a stack for path */
 	while (curr_state != nullptr) {
 		path.push(curr_state);
 		curr_state = curr_state->get_parent();
 	}
-
 
     /* Print path/state history */
     while (!path.empty()) {
@@ -92,31 +85,38 @@ int main (int argc, char *argv[]) {
 		path.pop();
 	}
 
+    /* Clean up heap allocations */
 	for (StatePtr p : frontier)
 		if (p != nullptr) {
 			delete p;
 			p = nullptr;
 		}
 
-	for (StatePtr p : closed_list)
+    for (StatePtr p : closed_list)
 		if (p != nullptr) {
 			delete p;
 			p = nullptr;
 		}
 
-  /* Exit */
-	return 0;
+    for (int i = 0; i < side; i++)
+        delete [] board[i];
+    delete [] board;
+
+    /* Exit */
+    return 0;
 }
 
 ///////////////
 /* Functions */
 ///////////////
 
-void expand_state (StatePtr parent, set<StatePtr, ClosedPtrCompare> & closed_list, set<StatePtr, FrontierPtrCompare> & frontier) {
-	static int id = 0;
+void expand_state (StatePtr parent,
+    set<StatePtr, ClosedPtrCompare> & closed_list,
+    set<StatePtr, FrontierPtrCompare> & frontier) {
+
 	StatePtr expand[4];
 
-	/* Generate new states */
+	/* Clone states from parent */
 	for (int i = 0; i < 4; i++) {
         try {
             expand[i] = new State(parent);
@@ -125,7 +125,7 @@ void expand_state (StatePtr parent, set<StatePtr, ClosedPtrCompare> & closed_lis
         }
     }
 
-    /* Create new states, remove ones that fail */
+    /* Modify states, to create new ones; remove ones that fail */
 	if (!expand[0]->move_down()) {
 		delete expand[0];
 		expand[0] = nullptr;
@@ -146,7 +146,7 @@ void expand_state (StatePtr parent, set<StatePtr, ClosedPtrCompare> & closed_lis
 		expand[3] = nullptr;
 	}
 
-	/* check created states against known (closed) states */
+	/* Add only new states now found in the frontier */
 	for (int i = 0; i < 4; i++)
 		if (expand[i] != nullptr) {
 			auto find = closed_list.find(expand[i]);
@@ -157,7 +157,7 @@ void expand_state (StatePtr parent, set<StatePtr, ClosedPtrCompare> & closed_lis
 		}
 }
 
-/* Create board using stdin */
+/* Create board from STDIN` */
 void init_board (Board & board, size_t & side) {
     Tile tile;
     vector<Tile> parse;

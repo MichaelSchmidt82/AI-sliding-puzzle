@@ -1,6 +1,6 @@
 #include "state.h"
 
-/* constructors */
+/* Constructors */
 State::State (Mode _mode)
 	: board(nullptr), parent(nullptr), depth(0) {
 		set_mode(_mode);
@@ -64,12 +64,15 @@ State::State (Board _board, int _n, Mode _mode) : depth(0), n(_n), mode(_mode), 
 
 /* Destructor */
 State::~State () {
-	if (board)
-		delete[] board;
+	if (board) {
+		for (int i = 0; i < n; i++)
+			delete [] board[i];
+		delete [] board;
+	}
 	board = nullptr;
 }
 
-/* operator overloads */
+/* Operators */
 bool State::operator< (const State & rhs) const {
 	for (int r = 0; r < n; r++)
 		for (int c = 0; c < n; c++)
@@ -174,7 +177,7 @@ void State::set_mode (Mode _mode) {
 }
 
 /////////////////////////
-/* heuristic functions */
+/* Heuristic functions */
 /////////////////////////
 
 int State::count_displaced () const {
@@ -193,7 +196,7 @@ int State::sum_of_manhattan () const {
 
 	for (int r = 0, i = 0; r < n; r++)
 		for (int c = 0; c < n; c++, i++) {
-            /* don't count the blank_spot (i != 0) */
+            /* Must not count the blank_spot (i != 0) */
 			if (board[r][c] != i && i != 0) {
 				end_coord = Pair(r, c);
 
@@ -209,7 +212,7 @@ int State::sum_of_manhattan () const {
 	return hn;
 }
 
-/* use distance formula */
+/* Use euclidean distance formula */
 int State::custom_h () const {
 	Pair end_coord, start_coord;
 	double distance = 0;

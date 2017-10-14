@@ -12,17 +12,13 @@ struct Pair {
 	Pair (const Pair & p) : r(p.r), c(p.c) {}
 	Pair (PairPtr p) : r(p->r), c(p->c) {}
 
-	/* Operator overloads */
-	void operator= (const Pair & p) {
-		this->r = p.r;
-		this->c = p.c;
-	}
-	bool operator== (const Pair & rhs) { return (this->r == rhs.r) && (this->c == rhs.c); }
-	bool operator!= (const Pair & rhs) { return (this->r != rhs.r) || (this->c != rhs.c); }
+	/* Operators */
+	void operator= (const Pair & p);
+	bool operator== (const Pair & rhs);
+	bool operator!= (const Pair & rhs);
 
 	/* Members */
 	int r;
 	int c;
 };
-
-#endif
+#endif // !PAIR_H

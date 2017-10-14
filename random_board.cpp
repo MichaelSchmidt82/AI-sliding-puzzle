@@ -44,11 +44,19 @@ int main (int argc, char *argv[]) {
 
     shuffle_board(board, blank_spot, side, atoi(argv[1]), atoi(argv[2]));
 
+	/* print shuffled board to stdout */
     for (int r = 0; r < side; r++) {
       for (int c = 0; c < side; c++)
         cout << board[r][c] << ' ';
       cout << endl;
     }
+
+	/* Cleanup heap allocations */
+	for (int i = 0; i < side; i++)
+        delete [] board[i];
+    delete [] board;
+
+	return 0;
 }
 
 void shuffle_board (Board & board, Pair & blank_spot, int n, int seed, int iterations) {
@@ -92,7 +100,7 @@ inline bool move_up (Board & board, Pair & blank_spot) {
 	if (blank_spot.r == 0)
 		return false;
 
-	quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r - 1][blank_spot.c]);
+	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r - 1][blank_spot.c]);
 	blank_spot.r -= 1;
 	return true;
 }
@@ -101,7 +109,7 @@ inline bool move_down (Board & board, Pair & blank_spot, int n) {
 	if (blank_spot.r == n - 1)
 		return false;
 
-	quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r + 1][blank_spot.c]);
+	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r + 1][blank_spot.c]);
 	blank_spot.r += 1;
 	return true;
 }
@@ -110,7 +118,7 @@ inline bool move_right (Board & board, Pair & blank_spot, int n) {
 	if (blank_spot.c == n - 1)
 		return false;
 
-	quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c + 1]);
+	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c + 1]);
 	blank_spot.c += 1;
 	return true;
 }
@@ -119,7 +127,7 @@ inline bool move_left (Board & board, Pair & blank_spot) {
 	if (blank_spot.c == 0)
 		return false;
 
-	quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c - 1]);
+	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c - 1]);
 	blank_spot.c -= 1;
 	return true;
 }

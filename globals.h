@@ -1,3 +1,14 @@
+/*
+Author:         Michael Schmidt
+Class:			CSCI 4350 - Intro to Artificial Intelligence
+Instructor:	    Dr. Joshua Phillips
+Due:            28 Sept 2017
+
+Description:    This header is for use in multiple programs.  It contains
+				commonly used data structures, libraries, definitions, and
+				functions.
+*/
+
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
@@ -32,7 +43,7 @@ struct ClosedPtrCompare;
 /* Typedefs */
 typedef State* StatePtr;
 typedef Pair* PairPtr;
-typedef int Tile;		// unsigned char may save space
+typedef int Tile;
 typedef Tile* TilePtr;
 typedef Tile** Board;
 typedef stack<StatePtr> Path;
