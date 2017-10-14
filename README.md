@@ -2,7 +2,7 @@
 Solve an NxN sliding puzzle problem using the A* algorithm
 
 ### How to Build:
-make
+clone the project and type `make`
 
 ### Usage:
 Generate a board:  `./random_board <SEED> <NUM_OF_SHUFFLES> > <START_STATE_FILE>`
