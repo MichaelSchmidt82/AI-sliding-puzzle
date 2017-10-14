@@ -1,3 +1,6 @@
+#ifndef PAIR_H
+#define PAIR_H
+
 #include "globals.h"
 
 /* A simple struct to hold coordinate points */
@@ -21,3 +24,5 @@ struct Pair {
 	int r;
 	int c;
 };
+
+#endif

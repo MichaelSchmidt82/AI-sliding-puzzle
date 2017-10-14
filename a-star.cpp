@@ -10,6 +10,8 @@ Assumptions:    Board is N x N.
 */
 
 #include "globals.h"
+#include "state.h"
+#include "pair.h"
 
 /* Prototypes */
 void expand_state (StatePtr parent,
@@ -132,13 +134,6 @@ void expand_state (StatePtr parent, set<StatePtr, ClosedPtrCompare> & closed_lis
 		delete expand[3];
 		expand[3] = nullptr;
 	}
-
-	/* give each state an id */
-	for (int i = 0; i < 4; i++)
-		if (expand[i] != nullptr) {
-			expand[i]->set_id(id);
-			id++;
-		}
 
 	/* check created states against known (closed) states */
 	for (int i = 0; i < 4; i++)

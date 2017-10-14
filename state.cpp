@@ -1,7 +1,4 @@
-
-/////////////////////////////////
-/* State object implementation */
-/////////////////////////////////
+#include "state.h"
 
 /* constructors */
 State::State (Mode _mode)

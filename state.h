@@ -1,4 +1,8 @@
+#ifndef STATE_H
+#define STATE_H
+
 #include "globals.h"
+#include "pair.h"
 
 class State {
 public:
@@ -18,7 +22,6 @@ public:
 	void print_board () const;
 	bool is_goal () const;
 	int get_depth () const { return depth; }
-	int get_id () const { return id; }
 	int fn () const { return depth + (this->*(this->calculate_fn))(); }
 	StatePtr get_parent () const { return parent; }
 
@@ -63,3 +66,5 @@ struct FrontierPtrCompare {
 		return (lhs->fn() == rhs->fn()) ? *lhs < *rhs : lhs->fn() < rhs->fn();
 	}
 };
+
+#endif
