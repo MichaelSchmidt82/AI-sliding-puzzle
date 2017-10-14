@@ -92,7 +92,10 @@ bool State::operator== (const State & rhs) const {
 void State::print_board () const {
 	for (int r = 0; r < n; r++) {
 		for (int c = 0; c < n; c++)
-			cout << board[r][c] << ' ';
+            if (board[r][c] == 0)
+                cout << "- ";
+            else
+			    cout << board[r][c] << ' ';
 		cout << endl;
 	}
 }

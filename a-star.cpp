@@ -24,7 +24,10 @@ void init_board(Board & board, size_t & side);
 //////////////
 
 int main (int argc, char *argv[]) {
-	/* Statistics */
+
+	assert(argc == 2 && "Supply heuristic as command line arguement.");
+
+	/* Statistic Variables */
 	size_t v = 0;
 	size_t n;
 	size_t d;
@@ -40,13 +43,18 @@ int main (int argc, char *argv[]) {
 
     /* Create initial state */
     init_board(board, side);
+
     try {
         curr_state = new State(board, side, Mode(atoi(argv[1])));
     } catch (bad_alloc & ba) {
         cerr << "bad allocation: " << ba.what() << endl;
     }
+
+
+
     /* Perform a-star search */
 	while (!curr_state->is_goal()) {
+
 		closed_list.insert(curr_state);
 		expand_state(curr_state, closed_list, frontier);
 
@@ -61,17 +69,20 @@ int main (int argc, char *argv[]) {
 	b = pow(n, 1 / double(d));
 
 	/* Print results */
-	cout << "V=" << v << endl;
-	cout << "N=" << n << endl;
-	cout << "d=" << d << endl;
-	cout << "b=" << b << endl;
-	cout << endl;
+	cout << "==================== STATS ====================" << endl;
+	cout << v << " of " << n << " states visited." << endl;
+	cout << "Solution is " << d << " levels deep in tree." << endl;
+	cout << b << " average branching factor." <<	 endl;
+	cout << "=================== SOLUTION ==================" << endl << endl;
+
+
 
     /* Push states onto a stack for path */
 	while (curr_state != nullptr) {
 		path.push(curr_state);
 		curr_state = curr_state->get_parent();
 	}
+
 
     /* Print path/state history */
     while (!path.empty()) {
