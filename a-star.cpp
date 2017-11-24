@@ -1,10 +1,6 @@
 /*
 Author:         Michael Schmidt
-Class:			CSCI 4350 - Intro to Artificial Intelligence
-Instructor:	    Dr. Joshua Phillips
-Due:            28 Sept 2017
-
-Description:    An a-star implementation
+Description:    An a-star implementation to solve a sliding puzzle problem
 
 Assumptions:    Board is N x N.
 */
