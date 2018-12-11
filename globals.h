@@ -16,11 +16,13 @@ Description:    This header is for use in multiple programs.  It contains
 #include <ctime>
 #include <cassert>
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <stdlib.h>
 #include <stack>
 #include <set>
 #include <vector>
+#include <utility>
 
 /* Using Statements */
 using std::atoi;
@@ -29,20 +31,21 @@ using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
+using std::make_pair;
+using std::pair;
 using std::pow;
 using std::set;
+using std::setw;
 using std::sqrt;
 using std::stack;
 using std::vector;
 
 /* Forward Declarations */
 class State;
-struct Pair;
 struct ClosedPtrCompare;
 
 /* Typedefs */
 typedef State* StatePtr;
-typedef Pair* PairPtr;
 typedef int Tile;
 typedef Tile* TilePtr;
 typedef Tile** Board;
