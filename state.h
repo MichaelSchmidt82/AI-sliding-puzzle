@@ -2,7 +2,6 @@
 #define STATE_H
 
 #include "globals.h"
-#include "pair.h"
 
 class State {
 public:
@@ -41,7 +40,7 @@ private:
 
 	Board board;
 	Mode mode;
-	Pair blank_spot;
+	pair<int, int> blank_spot;
 	StatePtr parent;
 
 	HeuristicCallback calculate_fn;

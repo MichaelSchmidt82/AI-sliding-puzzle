@@ -56,7 +56,7 @@ State::State (Board _board, int _n, Mode _mode) : depth(0), n(_n), mode(_mode), 
 		for (int c = 0; c < n; c++) {
 			board[r][c] = _board[r][c];
 			if (board[r][c] == 0)
-				blank_spot = Pair(r, c);
+				blank_spot = make_pair(r, c);
 		}
 
 	set_mode(_mode);
@@ -96,15 +96,15 @@ void State::print_board () const {
 	for (int r = 0; r < n; r++) {
 		for (int c = 0; c < n; c++)
             if (board[r][c] == 0)
-                cout << "- ";
+                cout << "  - ";
             else
-			    cout << board[r][c] << ' ';
+			    cout << setw(3) << board[r][c] << ' ';
 		cout << endl;
 	}
 }
 
 bool State::is_goal () const {
-	if (blank_spot.r != 0 || blank_spot.c != 0)
+	if (blank_spot.first != 0 || blank_spot.second != 0)
 		return false;
 
 	for (int r = 0, i = 0; r < n; r++)
@@ -120,38 +120,42 @@ bool State::is_goal () const {
 //////////////////////
 
 bool State::move_up () {
-	if (blank_spot.r == 0)
+	if (blank_spot.first == 0)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r - 1][blank_spot.c]);
-	blank_spot.r -= 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first - 1][blank_spot.second]);
+	blank_spot.first -= 1;
 	return true;
 }
 
 bool State::move_down () {
-	if (blank_spot.r == n - 1)
+	if (blank_spot.first == n - 1)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r + 1][blank_spot.c]);
-	blank_spot.r += 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first + 1][blank_spot.second]);
+	blank_spot.first += 1;
 	return true;
 }
 
 bool State::move_right () {
-	if (blank_spot.c == n - 1)
+	if (blank_spot.second == n - 1)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c + 1]);
-	blank_spot.c += 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first][blank_spot.second + 1]);
+	blank_spot.second += 1;
 	return true;
 }
 
 bool State::move_left () {
-	if (blank_spot.c == 0)
+	if (blank_spot.second == 0)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c - 1]);
-	blank_spot.c -= 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first][blank_spot.second - 1]);
+	blank_spot.second -= 1;
 	return true;
 }
 
@@ -191,22 +195,23 @@ int State::count_displaced () const {
 }
 
 int State::sum_of_manhattan () const {
-	Pair start_coord, end_coord;
+	pair<int, int> start_coord, end_coord;
 	int hn = 0;
 
 	for (int r = 0, i = 0; r < n; r++)
 		for (int c = 0; c < n; c++, i++) {
             /* Must not count the blank_spot (i != 0) */
 			if (board[r][c] != i && i != 0) {
-				end_coord = Pair(r, c);
+				end_coord = make_pair(r, c);
 
 				for (int sr = n - 1; sr >= 0; sr--)
 					for (int sc = n - 1; sc >= 0; sc--)
 						if (board[sr][sc] == i) {
-							start_coord = Pair(sr, sc);
+							start_coord = make_pair(sr, sc);
 							break;
 						}
-                hn += abs(end_coord.r - start_coord.r) + abs(end_coord.c - start_coord.c);
+                hn += abs(end_coord.first - start_coord.first) +
+					abs(end_coord.second - start_coord.second);
             }
 		}
 	return hn;
@@ -214,21 +219,22 @@ int State::sum_of_manhattan () const {
 
 /* Use euclidean distance formula */
 int State::custom_h () const {
-	Pair end_coord, start_coord;
+	pair<int, int> end_coord, start_coord;
 	double distance = 0;
 
 	for (int r = 0, i = 0; r < n; r++)
 		for (int c = 0; c < n; c++, i++)
 			if (board[r][c] != i && i != 0) {
-				end_coord = Pair(r, c);
+				end_coord = make_pair(r, c);
 
 				for (int sr = n - 1; sr >= 0; sr--)
 					for (int sc = n - 1; sc >= 0; sc--)
 						if (board[sr][sc] == i) {
-							start_coord = Pair(sr, sc);
+							start_coord = make_pair(sr, sc);
 							break;
 						}
-				distance += sqrt(pow(end_coord.r - start_coord.r, 2) + pow(end_coord.c - start_coord.c, 2));
+				distance += sqrt(pow(end_coord.first - start_coord.first, 2) +
+					pow(end_coord.second - start_coord.second, 2));
 			}
 	return floor(distance);
 }
