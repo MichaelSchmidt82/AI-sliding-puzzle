@@ -7,7 +7,6 @@ Assumptions:    Board is N x N.
 
 #include "globals.h"
 #include "state.h"
-#include "pair.h"
 
 /* Prototypes */
 void expand_state (StatePtr parent,
@@ -30,9 +29,9 @@ int main (int argc, char *argv[]) {
 	double b;
 
 	/* Variables */
-    size_t side; // side length of puzzle
-    Path path;
-    Board board;
+  size_t side; // side length of puzzle
+  Path path;
+  Board board;
 	StatePtr curr_state;
 	set<StatePtr, ClosedPtrCompare> closed_list;
 	set<StatePtr, FrontierPtrCompare> frontier;
@@ -81,9 +80,9 @@ int main (int argc, char *argv[]) {
 		path.pop();
 	}
 
-    /* Clean up heap allocations */
+  /* Clean up heap allocations */
 	for (StatePtr p : frontier)
-		if (p != nullptr) {
+        if (p != nullptr) {
 			delete p;
 			p = nullptr;
 		}
