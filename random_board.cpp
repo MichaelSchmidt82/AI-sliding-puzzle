@@ -10,21 +10,20 @@ Assumptions:    Board is N x N.
 */
 
 #include "globals.h"
-#include "pair.h"
 
-inline bool move_up(Board & board, Pair & blank_spot);
-inline bool move_down(Board & board, Pair & blank_spot, int n);
-inline bool move_left(Board & board, Pair & blank_spot);
-inline bool move_right(Board & board, Pair & blank_spot, int n);
+inline bool move_up(Board & board, pair<int, int>& blank_spot);
+inline bool move_down(Board & board, pair<int, int>& blank_spot, int n);
+inline bool move_left(Board & board, pair<int, int>& blank_spot);
+inline bool move_right(Board & board, pair<int, int>& blank_spot, int n);
 
-void shuffle_board(Board & board, Pair & blank_spot, int n, int seed, int iterations);
+void shuffle_board(Board & board, pair<int, int>& blank_spot, int n, int seed, int iterations);
 
 int main (int argc, char *argv[]) {
 
 	assert(argc == 3 && "Provide a random seed, iterations as arguements.");
 
 	int side, num;
-    Pair blank_spot;
+    pair<int, int> blank_spot;
     Board board;
     vector<Tile> parse;
 
@@ -59,14 +58,14 @@ int main (int argc, char *argv[]) {
 	return 0;
 }
 
-void shuffle_board (Board & board, Pair & blank_spot, int n, int seed, int iterations) {
+void shuffle_board (Board & board, pair<int, int>& blank_spot, int n, int seed, int iterations) {
 	bool success;
 	int rand_num;
 
 	for (int r = 0; r < n; r++)
 		for (int c = 0; c < n; c++) {
 			if (board[r][c] == 0)
-				blank_spot = Pair(r, c);
+				blank_spot = make_pair(r, c);
                 break;
             }
 
@@ -96,38 +95,42 @@ void shuffle_board (Board & board, Pair & blank_spot, int n, int seed, int itera
 	}
 }
 
-inline bool move_up (Board & board, Pair & blank_spot) {
-	if (blank_spot.r == 0)
+inline bool move_up (Board & board, pair<int, int>& blank_spot) {
+	if (blank_spot.first == 0)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r - 1][blank_spot.c]);
-	blank_spot.r -= 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first - 1][blank_spot.second]);
+	blank_spot.first -= 1;
 	return true;
 }
 
-inline bool move_down (Board & board, Pair & blank_spot, int n) {
-	if (blank_spot.r == n - 1)
+inline bool move_down (Board & board, pair<int, int>& blank_spot, int n) {
+	if (blank_spot.first == n - 1)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r + 1][blank_spot.c]);
-	blank_spot.r += 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first + 1][blank_spot.second]);
+	blank_spot.first += 1;
 	return true;
 }
 
-inline bool move_right (Board & board, Pair & blank_spot, int n) {
-	if (blank_spot.c == n - 1)
+inline bool move_right (Board & board, pair<int, int>& blank_spot, int n) {
+	if (blank_spot.second == n - 1)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c + 1]);
-	blank_spot.c += 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first][blank_spot.second + 1]);
+	blank_spot.second += 1;
 	return true;
 }
 
-inline bool move_left (Board & board, Pair & blank_spot) {
-	if (blank_spot.c == 0)
+inline bool move_left (Board & board, pair<int, int>& blank_spot) {
+	if (blank_spot.second == 0)
 		return false;
 
-	::quick_xchng(board[blank_spot.r][blank_spot.c], board[blank_spot.r][blank_spot.c - 1]);
-	blank_spot.c -= 1;
+	::quick_xchng(board[blank_spot.first][blank_spot.second],
+		board[blank_spot.first][blank_spot.second - 1]);
+	blank_spot.second -= 1;
 	return true;
 }
