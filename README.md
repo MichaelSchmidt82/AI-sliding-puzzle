@@ -6,7 +6,7 @@ clone the project and type `make`
 
 ### Usage:
 Generate a board:  `./random_board <SEED> <NUM_OF_SHUFFLES> < <COMPLETED_STATE>`  
-Solve a board:  `./a-star <MODE> < <START_STATE_FILE>`  
+Solve a board:  `./a_star <MODE> < <START_STATE_FILE>`  
   
 or simply chain the operations together:  
 `./random_board 1 100 < puzzle.txt | ./a-star 2`  
@@ -37,5 +37,5 @@ Specify via STDIN the puzzle.  As noted earlier, use `./random_board` to do this
   
 `./random_board 1 100 < completed.txt > shuffled_puzzle.txt` then `./a-star 2 < shuffled_puzzle.txt`  
 or simply...  
-`./random_board 1 100 | ./a-star 2`
+`./random_board 1 100 < puzzle.txt | ./a_star 2`
 
